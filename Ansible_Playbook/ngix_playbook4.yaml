@@ -1,0 +1,31 @@
+#Hosts:
+- hosts: linux
+  become: yes
+  tasks:
+    - name: Install EPEL
+      yum:
+        name: epel-release
+        update_cache: yes
+        state: latest
+      when: ansible_distribution == "Rocky"
+
+    - name: install nginx with package module
+      package:
+        name: nginx
+        state: latest
+
+    - name: Restart nginx
+      service:
+        name: nginx
+        state: restarted
+      notify: Check HTTP Service
+
+  handlers:
+    - name: Check HTTP Service
+      ansible.builtin.uri:
+        url: http://{{ ansible_default_ipv4.address  }}
+        status_code: 200
+
+#vars
+#Tasks
+#Handlers
