@@ -1,0 +1,13 @@
+#Hosts:
+- hosts: web
+  become: yes
+  tasks:
+    - name: Install EPEL
+      yum:
+        name: epel-release
+        update_cache: yes
+        state: latest
+      when: ansible_distribution == "Rocky"
+#vars
+#Tasks
+#Handlers
