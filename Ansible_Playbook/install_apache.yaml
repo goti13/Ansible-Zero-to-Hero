@@ -1,0 +1,19 @@
+---
+- name: Install and configure Apache
+  hosts: web
+  become: true
+  tasks:
+  - name: "Ensure Apache is installed"
+    apt:
+     name: apache2
+     state: absent
+     update_cache: yes
+  - name: "Start & Enable Apache"
+    service:
+     name: apache2
+     state: started
+     enabled: true
+  - name: "Deploy index.html"
+    copy:
+     content:"<h1>Hello From Ansible-managed Apache server!</h1>"
+     dest:"/var/www/html/index.html"
