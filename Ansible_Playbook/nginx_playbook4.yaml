@@ -1,0 +1,24 @@
+#Hosts:
+- hosts: linux
+  become: yes
+  tasks:
+    - name: Install EPEL
+      yum:
+        name: epel-release
+        update_cache: yes
+        state: latest
+      when: ansible_distribution == "Rocky"
+
+    - name: install nginx with package module
+      package:
+        name: nginx
+        state: latest
+
+    - name: Restart nginx
+      service:
+        name: nginx
+        state: restarted
+
+#vars
+#Tasks
+#Handlers
