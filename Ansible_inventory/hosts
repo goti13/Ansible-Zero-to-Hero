@@ -1,0 +1,11 @@
+[web_servers]
+server1.ironhack.com ansible_user=root  ansible_password=Pass@123
+server2.ironhack.com ansible_user=admin ansible_password=Pass@123
+server3.ironhack.com ansible_user=root  ansible_password=pass
+ 
+[db_servers]
+db1.ironhack.com     ansible_user=admin ansible_password=Pass@123
+ 
+[all_servers:children]
+web_servers
+db_servers
