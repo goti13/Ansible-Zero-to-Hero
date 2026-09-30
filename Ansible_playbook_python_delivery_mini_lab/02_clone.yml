@@ -1,0 +1,17 @@
+---
+- name: 2 – Clone repo
+  hosts: flaskers
+  tasks:
+    - name: Ensure git is present
+      ansible.builtin.apt:
+        name: git
+        state: present
+        update_cache: yes
+      become: yes
+ 
+    - name: Clone Flaskerino
+      ansible.builtin.git:
+        repo: https://github.com/professordiogodev/devops.flaskerino.git
+        dest: /opt/flaskerino
+        version: main
+      become: yes

@@ -1,0 +1,25 @@
+---
+- name: 4 – Run Flaskerino
+  hosts: flaskers
+  become: yes
+  vars:
+    flask_port: 80
+    flask_path: /
+    flask_number: "{{ inventory_hostname == 'flask1' | ternary('1', '2') }}"
+  tasks:
+    - name: Kill any previous Flaskerino
+      ansible.builtin.shell: |
+        pkill -f "/opt/flaskerino/app.py" || true
+      args:
+        executable: /bin/bash
+      register: kill_result
+      failed_when: false        # never fail even if no process found
+ 
+    - name: Launch Flaskerino (detached)
+      ansible.builtin.shell: |
+        source /opt/flaskerino/venv/bin/activate
+        export PORT={{ flask_port }} DESIRED_PATH={{ flask_path }} NUMBER={{ flask_number }}
+        nohup python3 /opt/flaskerino/app.py &
+      args:
+        chdir: /opt/flaskerino
+        executable: /bin/bash

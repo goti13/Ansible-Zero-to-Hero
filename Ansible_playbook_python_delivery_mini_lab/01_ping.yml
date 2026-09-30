@@ -1,0 +1,8 @@
+---
+- name: 1 – Ping hosts
+  hosts: flaskers
+  gather_facts: no
+ 
+  tasks:
+    - name: Say hello (ICMP)
+      ansible.builtin.ping:

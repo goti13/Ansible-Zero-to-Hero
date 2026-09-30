@@ -1,0 +1,23 @@
+---
+- name: 3 – Python & packages
+  hosts: flaskers
+  become: yes
+  tasks:
+    - name: Install Python, pip, virtualenv
+      ansible.builtin.apt:
+        name:
+          - python3
+          - python3-pip
+          - python3-venv
+        state: present
+        update_cache: yes
+ 
+    - name: Create virtualenv
+      ansible.builtin.command: python3 -m venv /opt/flaskerino/venv
+      args:
+        creates: /opt/flaskerino/venv
+ 
+    - name: Install requirements
+      ansible.builtin.pip:
+        requirements: /opt/flaskerino/requirements.txt
+        virtualenv: /opt/flaskerino/venv
