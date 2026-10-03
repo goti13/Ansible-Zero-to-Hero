@@ -1,0 +1,9 @@
+#SPDX-License-Identifier: MIT-0
+---
+# handlers file for roles/loadbalancer
+
+- name: Restart Apache
+  service:
+    name: apache2
+    state: restarted
+  become: true

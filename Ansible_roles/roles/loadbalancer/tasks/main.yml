@@ -1,0 +1,25 @@
+#SPDX-License-Identifier: MIT-0
+---
+# tasks file for roles/loadbalancer
+
+- name: Install Apache
+  apt:
+    name: apache2
+    state: present
+    update_cache: yes
+  become: true
+ 
+- name: Enable required proxy modules
+  command: a2enmod proxy proxy_http proxy_balancer lbmethod_byrequests
+  become: true
+  register: a2enmod_result
+  notify: Restart Apache
+  changed_when: "'Enabling module' in a2enmod_result.stdout"
+ 
+- name: Deploy load balancer vhost
+  template:
+    src: loadbalancer.conf.j2
+    dest: /etc/apache2/sites-available/000-default.conf
+    mode: '0644'
+  become: true
+  notify: Restart Apache

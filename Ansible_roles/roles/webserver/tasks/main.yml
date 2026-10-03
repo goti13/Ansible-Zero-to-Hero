@@ -1,0 +1,25 @@
+#SPDX-License-Identifier: MIT-0
+---
+# tasks file for roles/webserver
+- name: Install Apache and PHP
+  apt:
+    name:
+      - apache2
+      - php
+    state: present
+    update_cache: yes
+  become: true
+ 
+- name: Copy index.php to Apache docroot
+  copy:
+    src: index.php
+    dest: /var/www/html/index.php
+    mode: '0644'
+  become: true
+  notify: Restart Apache
+ 
+- name: Remove index.html from Apache docroot
+  ansible.builtin.file:
+    path: /var/www/html/index.html
+    state: absent
+  become: true

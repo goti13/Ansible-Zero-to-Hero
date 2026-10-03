@@ -1,0 +1,10 @@
+---
+- name: Configure Web Servers
+  hosts: webserver
+  roles:
+    - webserver
+ 
+- name: Configure Load Balancer
+  hosts: loadbalancer
+  roles:
+    - loadbalancer
