@@ -351,4 +351,4 @@ A `502 Bad Gateway` while the upstream is stopped, and the greeting after it sta
 
 - GitHub: [goti13](https://github.com/goti13)
 - LinkedIn: [gerald-oti](https://www.linkedin.com/in/gerald-oti/)
-- Website: [geraldoti.com](https://geraldoti.com)
+
