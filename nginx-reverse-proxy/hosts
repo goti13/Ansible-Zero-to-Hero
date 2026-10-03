@@ -1,0 +1,5 @@
+[reverse_proxy]
+reverse ansible_host=54.90.177.97 ansible_user=ubuntu ansible_private_key_file=/Users/geraldoti/Downloads/practice.pem
+ 
+[upstream_server]
+upstream ansible_host=52.200.125.115 ansible_user=ubuntu ansible_private_key_file=/Users/geraldoti/Downloads/practice.pem

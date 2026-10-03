@@ -1,0 +1,23 @@
+---
+- name: Deploy Upstream Nginx Server
+  hosts: upstream_server
+  become: yes
+ 
+  tasks:
+    - name: Update apt cache and install Nginx
+      apt:
+        name: nginx
+        state: present
+        update_cache: yes
+ 
+    - name: Deploy a sample index page
+      copy:
+        dest: /var/www/html/index.html
+        content: "Hello from the Upstream Server on port 80!"
+      notify: reload nginx
+ 
+  handlers:
+    - name: reload nginx
+      service:
+        name: nginx
+        state: reloaded

@@ -1,0 +1,34 @@
+---
+- name: Deploy Nginx Reverse Proxy
+  hosts: reverse_proxy
+  become: yes
+ 
+  vars:
+    server_name: "{{ hostvars['reverse'].ansible_host }}"
+    upstream_server: "{{ hostvars['upstream'].ansible_host }}:80"
+ 
+  tasks:
+    - name: Update apt cache and install Nginx
+      apt:
+        name: nginx
+        state: latest
+        update_cache: yes
+ 
+    - name: Deploy Nginx reverse proxy config from Jinja2 template
+      template:
+        src: templates/nginx.conf.j2
+        dest: /etc/nginx/sites-available/default
+      notify:
+        - reload nginx
+ 
+    - name: Ensure Nginx is running and enabled
+      service:
+        name: nginx
+        state: started
+        enabled: yes
+ 
+  handlers:
+    - name: reload nginx
+      service:
+        name: nginx
+        state: reloaded
